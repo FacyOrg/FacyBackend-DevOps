@@ -10,11 +10,12 @@ import uuid
 import cv2
 import numpy as np
 from datetime import datetime
+import pika
 
 app = Flask(__name__)
 r = redis.StrictRedis(host="localhost", port=6379, decode_responses=True, db=1)
 
-IMG_SENTIMENT_ANALYSIS_PATH = "http://" + os.environ["IMG_SENTIMENT_ANALYSIS"] + os.environ["IMG_SENTIMENT_ANALYSIS_PORT"] + "/ai/run_task"
+IMG_SENTIMENT_ANALYSIS_PATH = "http://" + os.environ["IMG_SENTIMENT_ANALYSIS"] + os.environ["IMG_SENTIMENT_ANALYSIS_PORT"] + "/ai-img/run_task"
 
 def generate_unique_id():
     return str(uuid.uuid4())
@@ -32,7 +33,7 @@ async def process_image(image):
     return image_request_id, res.json()
 
 
-@app.route("/sentiment_analysis_image", methods=["POST"])
+@app.route("/api/sentiment_analysis_image", methods=["POST"])
 async def sentiment_analysis_image():
     try:
         image = request.files["image"]
@@ -41,12 +42,23 @@ async def sentiment_analysis_image():
         if not image:
             return "No image uploaded!", 400
 
+        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        channel = connection.channel()
+        
+        channel.queue_declare(queue='image_analysis_tasks')
+        
+        channel.basic_publish(exchange='',
+                              routing_key='image_analysis_tasks',
+                              body=image_data)
+        
+        connection.close()
+
         image_request_id, res = await process_image(image_data)
         return res, 200
     except:
         return "Error: Could not upload image and continue the process!\n", 500
 
-@app.route("/sentiment_analysis_text", methods=["POST"])
+@app.route("/api/sentiment_analysis_text", methods=["POST"])
 def sentiment_analysis_voice():
     pass
     

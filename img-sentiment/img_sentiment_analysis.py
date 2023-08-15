@@ -28,7 +28,7 @@ def get_rdata(data):
     
     return rdata
 
-@app.route("/ai/run_task", methods=["POST"])
+@app.route("/ai-img/run_task", methods=["POST"])
 def analyze_and_store_image():
     data = request.json
     str_image = data["image"]

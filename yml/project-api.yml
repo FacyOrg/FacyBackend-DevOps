@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-api
+  template:
+    metadata:
+      labels:
+        app: project-api
+    spec:
+      containers:
+      - name: project-api
+        image: avramstefan/facyapp:1.4
+        ports:
+        - containerPort: 5000
+        env:
+          - name: IMG_SENTIMENT_ANALYSIS
+            valueFrom:
+              secretKeyRef:
+                name: img-sentiment-analysis
+                key: IMG_SENTIMENT_ANALYSIS
+          - name: IMG_SENTIMENT_ANALYSIS_PORT
+            valueFrom:
+              secretKeyRef:
+                name: img-sentiment-analysis-port
+                key: IMG_SENTIMENT_ANALYSIS_PORT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-api
+spec:
+  selector:
+    app: project-api
+  ports:
+  - port: 5000
+    targetPort: 5000
