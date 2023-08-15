@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: project-api
-        image: avramstefan/facyapp:1.4
+        image: avramstefan/facyapp:1.9
         ports:
         - containerPort: 5000
         env:
@@ -28,6 +28,16 @@ spec:
               secretKeyRef:
                 name: img-sentiment-analysis-port
                 key: IMG_SENTIMENT_ANALYSIS_PORT
+          - name: REDIS_SVC
+            valueFrom:
+              secretKeyRef:
+                name: redis-svc
+                key: REDIS_SVC
+          - name: RABBITMQ_HOST
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-host
+                key: RABBITMQ_HOST
 ---
 apiVersion: v1
 kind: Service

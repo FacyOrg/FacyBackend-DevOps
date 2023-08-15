@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+spec:
+  replicas: 3  # Number of worker pods
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+        - name: worker-container
+          image: avramstefan/facysent:2.0
+          env:
+            - name: REDIS_SVC
+              valueFrom:
+                secretKeyRef:
+                  name: redis-svc
+                  key: REDIS_SVC
+            - name: RABBITMQ_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-host
+                  key: RABBITMQ_HOST

@@ -10,12 +10,16 @@ def analyze_sentiment(text):
     compound_score = sentiment_scores["compound"]
     
     if compound_score >= 0.05:
+        print(compound_score)
         return "Positive"
     elif compound_score <= -0.05:
+        print(compound_score)
         return "Negative"
+        
     else:
+        print(compound_score)
         return "Neutral"
-
+        
 while True:
     text = input("Enter some text (or type 'exit' to quit): ")
     

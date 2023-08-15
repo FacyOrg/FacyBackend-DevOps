@@ -14,9 +14,20 @@ spec:
     spec:
       containers:
       - name: ai-img
-        image: avramstefan/facysent:1.3
+        image: avramstefan/facysent:1.5
         ports:
         - containerPort: 5001
+        env:
+          - name: REDIS_SVC
+            valueFrom:
+              secretKeyRef:
+                name: redis-svc
+                key: REDIS_SVC
+          - name: RABBITMQ_HOST
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-host
+                key: RABBITMQ_HOST      
 
 ---
 apiVersion: v1
