@@ -1,0 +1,13 @@
+prefix=/home/kubernetes/FacyBackend-DevOps/exit
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+modules=1
+
+Name: libXML
+Version: 2.10.3
+Description: libXML library version2.
+Requires:
+Libs: -L${libdir} -lxml2
+Libs.private: -L/home/kubernetes/FacyBackend-DevOps/exit/lib -lz -L/home/kubernetes/FacyBackend-DevOps/exit/lib -llzma  -L/home/kubernetes/FacyBackend-DevOps/exit/lib -L/home/kubernetes/FacyBackend-DevOps/exit/lib -licui18n -licuuc -licudata -lm  
+Cflags: -I${includedir}/libxml2 -I/home/kubernetes/FacyBackend-DevOps/exit/include 

@@ -1,0 +1,11 @@
+prefix=/home/kubernetes/FacyBackend-DevOps/exit
+exec_prefix=/home/kubernetes/FacyBackend-DevOps/exit
+libdir=/home/kubernetes/FacyBackend-DevOps/exit/lib
+includedir=/home/kubernetes/FacyBackend-DevOps/exit/include
+
+Name: uuid
+Description: Universally unique id library
+Version: 2.32.1
+Requires:
+Cflags: -I${includedir}/uuid
+Libs: -L${libdir} -luuid
